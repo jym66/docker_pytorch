@@ -14,5 +14,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: |
+        TIMESTAMP=$(date +%s)
+        docker build . --file Dockerfile --tag my-image-name:$TIMESTAMP
+    - name: Push Docker image to Docker Hub
+      run: |
+        TIMESTAMP=$(date +%s)
+        docker push my-image-name:$TIMESTAMP
