@@ -21,6 +21,6 @@ jobs:
       id: date
       run: echo "::set-output name=timestamp::$(date +%s)"
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:${{ steps.date.outputs.timestamp }}
+      run: docker build . --file Dockerfile --tag wdxhl1024/pytorch_self/my-image-name:${{ steps.date.outputs.timestamp }}
     - name: Push Docker image to Docker Hub
-      run: docker push my-image-name:${{ steps.date.outputs.timestamp }}
+      run: docker push myusername/my-image-name:${{ steps.date.outputs.timestamp }}
