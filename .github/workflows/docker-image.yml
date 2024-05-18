@@ -23,4 +23,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag wdxhl1024/pytorch_self:${{ steps.date.outputs.timestamp }}
     - name: Push Docker image to Docker Hub
-      run: docker push myusername/myapp:${{ steps.date.outputs.timestamp }}
+      run: docker push wdxhl1024/pytorch_self:${{ steps.date.outputs.timestamp }}
