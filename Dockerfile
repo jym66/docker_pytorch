@@ -26,12 +26,15 @@ RUN chmod 600 /root/.ssh/authorized_keys && \
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir torchlibrosa wandb
 
-# 创建一个启动脚本来处理环境变量并启动 SSH
+# 复制 start_sshd.sh 脚本到容器中并赋予执行权限
 COPY start_sshd.sh /usr/local/bin/start_sshd.sh
 RUN chmod +x /usr/local/bin/start_sshd.sh
+
+# 自动将环境变量加载逻辑添加到 /root/.bashrc
+RUN echo 'if [ -f /etc/environment ]; then set -a; source /etc/environment; set +a; fi' >> /root/.bashrc
 
 # 开放 22 端口
 EXPOSE 22
 
-# 启动 SSH 服务
+# 使用自定义启动脚本来启动 SSH
 CMD ["/usr/local/bin/start_sshd.sh"]
