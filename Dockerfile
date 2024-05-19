@@ -18,12 +18,16 @@ COPY id_rsa.pub /root/.ssh/authorized_keys
 RUN chmod 600 /root/.ssh/authorized_keys
 RUN chown root:root /root/.ssh/authorized_keys
 
+# 更新 Conda
+RUN conda update -n base -c defaults conda
+
 # 配置 Conda 使用国内镜像源
 RUN conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
 RUN conda config --set show_channel_urls yes
 
-# 使用 Conda 安装额外的科学计算库
-RUN conda install numpy scipy matplotlib scikit-learn pandas sympy seaborn statsmodels torchlibrosa safetensors wandb transformers
+# 分开安装科学计算库
+RUN conda install -y numpy scipy matplotlib scikit-learn pandas sympy seaborn statsmodels
+RUN conda install -y torchlibrosa safetensors wandb transformers
 
 # 配置 SSH 登录时执行命令
 RUN echo 'export $(cat /proc/1/environ | tr "\\0" "\\n" | xargs)' >> /root/.bashrc
