@@ -18,14 +18,15 @@ RUN chown root:root /root/.ssh/authorized_keys
 # 更新 Conda
 RUN conda update -n base -c defaults conda
 
+# 使用 Conda 安装科学计算库
+RUN conda install -y numpy scipy matplotlib scikit-learn pandas \
+    sympy seaborn statsmodels transformers safetensors && conda clean -afy
+
 # 更新 pip
 RUN pip install --upgrade pip
 
-# 使用 Conda 安装科学计算库
-RUN conda install -y numpy scipy matplotlib scikit-learn pandas sympy seaborn statsmodels transformers safetensors
-
 # 使用 pip 安装 torchlibrosa 和 wandb
-RUN pip install torchlibrosa wandb
+RUN pip install --no-cache-dir torchlibrosa wandb
 
 # 设置 Ubuntu 镜像源为国内镜像（例如使用清华大学的镜像源）
 RUN sed -i 's/http:\/\/archive.ubuntu.com\/ubuntu\//http:\/\/mirrors.tuna.tsinghua.edu.cn\/ubuntu\//g' /etc/apt/sources.list
