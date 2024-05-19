@@ -22,7 +22,7 @@ RUN conda update -n base -c defaults conda
 RUN pip install --upgrade pip
 
 # 使用 Conda 安装科学计算库
-RUN conda install -y numpy scipy matplotlib scikit-learn pandas sympy seaborn statsmodels
+RUN conda install -y numpy scipy matplotlib scikit-learn pandas sympy seaborn statsmodels transformers safetensors
 
 # 使用 pip 安装 torchlibrosa 和 wandb
 RUN pip install torchlibrosa wandb
