@@ -16,11 +16,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up SSH keys
+      - name: Create SSH public key file
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > id_rsa.pub
 
       - name: Log in to Docker Hub
