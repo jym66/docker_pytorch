@@ -30,7 +30,7 @@ jobs:
         run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag yourusername/yourimage:${{ env.TIMESTAMP }}
+        run: docker build . --file Dockerfile --tag wdxhl1024/pytorch_self:${{ env.TIMESTAMP }}
 
       - name: Push Docker image to Docker Hub
         run: docker push yourusername/yourimage:${{ env.TIMESTAMP }}
