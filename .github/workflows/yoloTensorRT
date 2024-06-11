@@ -1,0 +1,36 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create SSH public key file
+        run: |
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > id_rsa.pub
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Set TIMESTAMP
+        run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Build the Docker image
+        run: docker build . --file yoloTensorRT --tag wdxhl1024/pytorch_self:${{ env.TIMESTAMP }}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push wdxhl1024/pytorch_self:${{ env.TIMESTAMP }}
